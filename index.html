@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courage Events – Yard Sale 2026</title>
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --dark: #1a1a1a;
+      --light-bg: #f9f6f0;
+      --card-bg: #ffffff;
+      --text: #333;
+      --muted: #777;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--light-bg);
+      color: var(--text);
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--dark);
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px 30px;
+    }
+    header .logo {
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    header h1 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    header h1 span { color: var(--gold); }
+    header p {
+      margin-top: 10px;
+      font-size: 15px;
+      color: #bbb;
+      max-width: 520px;
+      margin-inline: auto;
+    }
+
+    /* ── STICKY CTA BAR ── */
+    .sticky-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--gold);
+      color: #fff;
+      text-align: center;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .sticky-bar a {
+      background: #fff;
+      color: var(--dark);
+      padding: 7px 18px;
+      border-radius: 100px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+    .sticky-bar a:hover { background: var(--dark); color: #fff; }
+
+    /* ── GRID ── */
+    .grid-section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .grid-section h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .grid-section h2 .count {
+      background: var(--gold);
+      color: #fff;
+      font-size: 12px;
+      padding: 2px 9px;
+      border-radius: 100px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    }
+
+    .card-thumb {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #f0ece4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-thumb:hover .thumb-overlay { opacity: 1; }
+    .thumb-overlay {
+      position: absolute; inset: 0;
+      background: rgba(201,168,76,0.15);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .thumb-overlay span {
+      background: var(--gold); color: #fff;
+      padding: 8px 16px; border-radius: 100px;
+      font-size: 13px; font-weight: 600;
+    }
+    .thumb-icon {
+      font-size: 36px;
+    }
+
+    .card-body {
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-body h3 {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 8px;
+    }
+    .price {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .price small {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted);
+      display: block;
+    }
+    .qty-badge {
+      background: #f0ece4;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+    .qty-badge.low { background: #fff3e0; color: #e67e22; }
+    .qty-badge.last { background: #fde8e8; color: #c0392b; }
+
+    .card-footer {
+      padding: 12px 16px;
+      border-top: 1px solid #f0ece4;
+      display: flex;
+      gap: 8px;
+    }
+    .btn-view {
+      flex: 1;
+      display: block;
+      text-align: center;
+      padding: 9px;
+      border-radius: 8px;
+      background: #f0ece4;
+      color: var(--dark);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .btn-view:hover { background: #e5dfd5; }
+    .btn-call {
+      display: block;
+      text-align: center;
+      padding: 9px 14px;
+      border-radius: 8px;
+      background: var(--gold);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-call:hover { background: #b8922e; }
+
+    /* ── OUT OF STOCK ── */
+    .card.sold-out .card-thumb { filter: grayscale(0.5); }
+    .card.sold-out .price { color: var(--muted); }
+    .sold-label {
+      position: absolute; top: 12px; left: 12px;
+      background: #c0392b; color: #fff;
+      font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 100px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid #e8e2d8;
+      margin-top: 20px;
+    }
+    footer strong { color: var(--dark); }
+
+    /* ── LOADING/ERROR ── */
+    #loading, #error {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    #error { color: #c0392b; }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid #e0d8cc;
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 480px) {
+      .grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .card-body h3 { font-size: 12px; }
+      .price { font-size: 16px; }
+    }
+    @media (max-width: 320px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Courage Events</div>
+  <h1>Yard <span>Sale</span> 2026</h1>
+  <p>Premium event décor at clearance prices — vases, charger plates, candle stands &amp; more.</p>
+</header>
+
+<div class="sticky-bar">
+  📞 To buy, call Christina:
+  <a href="tel:09024613968">09024613968</a>
+</div>
+
+<div class="grid-section">
+  <h2>Available Items <span class="count" id="item-count">–</span></h2>
+  <div id="loading"><div class="spinner"></div>Loading inventory…</div>
+  <div id="error" style="display:none"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer>
+  <p>All items are sold as-is. Prices are per piece unless stated otherwise.</p>
+  <p style="margin-top:8px">Questions? Call <strong>Christina – 09024613968</strong></p>
+  <p style="margin-top:16px;font-size:12px;color:#bbb">© 2026 Courage Events · yardsales.courageevents.com</p>
+</footer>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────────────────
+  const SHEET_ID   = '181foEO-8VxSYDapAOcm7ZGhb98t90AkWeQVoVtb25Dg';
+  const SHEET_NAME = 'Sheet1';
+  const CALL_NO    = '09024613968';
+
+  // Category icons keyed on keywords in item names
+  const ICONS = {
+    vase:    '🏺',
+    charger: '🍽️',
+    candle:  '🕯️',
+    crowd:   '🚧',
+    cup:     '🥂',
+    raiser:  '✨',
+    curtain: '🪟',
+    walk:    '🛤️',
+    default: '🎪',
+  };
+  function getIcon(name) {
+    const n = name.toLowerCase();
+    for (const [k, v] of Object.entries(ICONS)) if (n.includes(k)) return v;
+    return ICONS.default;
+  }
+
+  function parseCsv(text) {
+    const rows = [];
+    const lines = text.split('\n');
+    for (const line of lines) {
+      if (!line.trim()) continue;
+      const cols = [];
+      let cur = '', inQ = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') { inQ = !inQ; continue; }
+        if (ch === ',' && !inQ) { cols.push(cur); cur = ''; continue; }
+        cur += ch;
+      }
+      cols.push(cur);
+      rows.push(cols);
+    }
+    return rows;
+  }
+
+  async function loadInventory() {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const text = await resp.text();
+    const rows = parseCsv(text);
+    // Find header row (S/N, Item Name, …)
+    let headerIdx = rows.findIndex(r => r[0].trim().toLowerCase() === 's/n');
+    if (headerIdx < 0) headerIdx = 0;
+    const data = rows.slice(headerIdx + 1).filter(r => {
+      const sn = r[0]?.trim();
+      return sn && /^\d+$/.test(sn);
+    });
+    return data.map(r => ({
+      sn:     r[0]?.trim(),
+      name:   r[1]?.trim(),
+      folder: r[2]?.trim(),
+      price:  r[3]?.trim(),
+      qty:    parseInt(r[4]?.replace(/,/g,'')) || 0,
+    }));
+  }
+
+  function qtyClass(qty) {
+    if (qty === 0)  return 'last';
+    if (qty <= 3)   return 'low';
+    return '';
+  }
+  function qtyLabel(qty) {
+    if (qty === 0)  return 'Sold out';
+    if (qty === 1)  return '1 left!';
+    if (qty <= 3)   return `Only ${qty} left`;
+    return `${qty} available`;
+  }
+
+  function renderCard(item) {
+    const soldOut = item.qty === 0;
+    const icon    = getIcon(item.name);
+    const whatsapp = `https://wa.me/234${CALL_NO.replace(/^0/, '')}?text=Hi%20Christina%2C%20I%27m%20interested%20in%20buying%20the%20${encodeURIComponent(item.name)}%20from%20the%20Courage%20Events%20Yard%20Sale.`;
+
+    return `
+      <div class="card${soldOut ? ' sold-out' : ''}">
+        <a class="card-thumb" href="${item.folder || '#'}" target="_blank" rel="noopener">
+          <div class="thumb-icon">${icon}</div>
+          <span style="font-size:12px">View Photos</span>
+          ${item.folder ? `<div class="thumb-overlay"><span>📁 Open Gallery</span></div>` : ''}
+          ${soldOut ? `<div class="sold-label">Sold Out</div>` : ''}
+        </a>
+        <div class="card-body">
+          <h3>${item.name}</h3>
+          <div class="card-meta">
+            <div class="price">
+              ₦${item.price}
+              <small>per piece</small>
+            </div>
+            <div class="qty-badge ${qtyClass(item.qty)}">${qtyLabel(item.qty)}</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          ${item.folder ? `<a class="btn-view" href="${item.folder}" target="_blank" rel="noopener">📷 Photos</a>` : ''}
+          ${!soldOut
+            ? `<a class="btn-call" href="tel:${CALL_NO}">📞 Buy Now</a>`
+            : `<span class="btn-call" style="background:#ccc;cursor:default">Sold Out</span>`
+          }
+        </div>
+      </div>`;
+  }
+
+  async function init() {
+    const grid    = document.getElementById('grid');
+    const loading = document.getElementById('loading');
+    const error   = document.getElementById('error');
+    const count   = document.getElementById('item-count');
+
+    try {
+      const items = await loadInventory();
+      loading.style.display = 'none';
+
+      const available = items.filter(i => i.qty > 0);
+      count.textContent = available.length;
+
+      // Sort: in-stock first, then by qty ascending (rarest first among low-stock)
+      items.sort((a, b) => {
+        if (a.qty === 0 && b.qty > 0) return 1;
+        if (a.qty > 0 && b.qty === 0) return -1;
+        return a.qty - b.qty;
+      });
+
+      grid.innerHTML = items.map(renderCard).join('');
+    } catch (e) {
+      loading.style.display = 'none';
+      error.style.display   = 'block';
+      error.innerHTML = `<strong>Could not load inventory.</strong><br>Make sure the Google Sheet is publicly accessible (Anyone with link → Viewer).<br><small>${e.message}</small>`;
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>
