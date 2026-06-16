@@ -1,0 +1,16 @@
+app = "courage-yardsale"
+primary_region = "jnb"  # Johannesburg — closest to Nigeria
+
+[build]
+
+[http_service]
+  internal_port = 80
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1
